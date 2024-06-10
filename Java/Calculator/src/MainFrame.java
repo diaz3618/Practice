@@ -1,18 +1,45 @@
+
 /**
  *
  * @author diaz
  */
+import javax.swing.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.text.NumberFormat;
+import java.text.ParseException;
 
 public class MainFrame extends javax.swing.JFrame {
-    public static float result = 0;
-    public static float num1 = 0;
-    public static float num2 = 0;
+
+    public static double result = 0;
+    public static double num1 = 0;
+    public static double num2 = 0;
     public static String operation;
-    public static boolean pressed = false;
+    private NumberFormat numberFormat;
 
     public MainFrame() {
         initComponents();
         setLocationRelativeTo(null);
+        numberFormat = NumberFormat.getNumberInstance();
+    }
+
+    public void formatText() {
+        try {
+            String text = result_box.getText();
+            if (!text.isEmpty()) {
+                Number number = numberFormat.parse(text);
+                result_box.setText(numberFormat.format(number));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static String removeCommas(String input) {
+        if (input == null) {
+            return null;
+        }
+        return input.replace(",", "");
     }
 
     @SuppressWarnings("unchecked")
@@ -272,67 +299,58 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void one_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_one_btnActionPerformed
-        if(MainFrame.pressed) {
-            result_box.setText("");
-        } result_box.setText(result_box.getText() + "1");
+        result_box.setText(result_box.getText() + "1");
+        formatText();
     }//GEN-LAST:event_one_btnActionPerformed
 
     private void two_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_two_btnActionPerformed
-        if(MainFrame.pressed) {
-            result_box.setText("");
-        } result_box.setText(result_box.getText() + "2");
+        result_box.setText(result_box.getText() + "2");
+        formatText();
     }//GEN-LAST:event_two_btnActionPerformed
 
     private void three_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_three_btnActionPerformed
-        if(MainFrame.pressed) {
-            result_box.setText("");
-        } result_box.setText(result_box.getText() + "3");
+        result_box.setText(result_box.getText() + "3");
+        formatText();
     }//GEN-LAST:event_three_btnActionPerformed
 
     private void four_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_four_btnActionPerformed
-        if(MainFrame.pressed) {
-            result_box.setText("");
-        } result_box.setText(result_box.getText() + "4");
+        result_box.setText(result_box.getText() + "4");
+        formatText();
     }//GEN-LAST:event_four_btnActionPerformed
 
     private void five_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_five_btnActionPerformed
-        if(MainFrame.pressed) {
-            result_box.setText("");
-        } result_box.setText(result_box.getText() + "5");
+        result_box.setText(result_box.getText() + "5");
+        formatText();
     }//GEN-LAST:event_five_btnActionPerformed
 
     private void six_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_six_btnActionPerformed
-        if(MainFrame.pressed) {
-            result_box.setText("");
-        } result_box.setText(result_box.getText() + "6");
+        result_box.setText(result_box.getText() + "6");
+        formatText();
     }//GEN-LAST:event_six_btnActionPerformed
 
     private void seven_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seven_btnActionPerformed
-        if(MainFrame.pressed) {
-            result_box.setText("");
-        } result_box.setText(result_box.getText() + "7");
+        result_box.setText(result_box.getText() + "7");
+        formatText();
     }//GEN-LAST:event_seven_btnActionPerformed
 
     private void eight_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eight_btnActionPerformed
-        if(MainFrame.pressed) {
-            result_box.setText("");
-        } result_box.setText(result_box.getText() + "8");
+        result_box.setText(result_box.getText() + "8");
+        formatText();
     }//GEN-LAST:event_eight_btnActionPerformed
 
     private void nine_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nine_btnActionPerformed
-        if(MainFrame.pressed) {
-            result_box.setText("");
-        } result_box.setText(result_box.getText() + "9");
+        result_box.setText(result_box.getText() + "9");
+        formatText();
     }//GEN-LAST:event_nine_btnActionPerformed
 
     private void zero_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zero_btnActionPerformed
-        if(MainFrame.pressed) {
-            result_box.setText("");
-        } result_box.setText(result_box.getText() + "0");
+        result_box.setText(result_box.getText() + "0");
+        formatText();
     }//GEN-LAST:event_zero_btnActionPerformed
 
     private void period_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_period_btnActionPerformed
         result_box.setText(result_box.getText() + ".");
+
     }//GEN-LAST:event_period_btnActionPerformed
 
     private void ac_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ac_btnActionPerformed
@@ -340,32 +358,37 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ac_btnActionPerformed
 
     private void plus_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plus_btnActionPerformed
-        MainFrame.num1 = Float.parseFloat(result_box.getText());
+        MainFrame.num1 = Float.parseFloat(removeCommas(result_box.getText()));
+        result_box.setText("");
         MainFrame.operation = "+";
-        MainFrame.pressed = true;
     }//GEN-LAST:event_plus_btnActionPerformed
 
     private void equal_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equal_btnActionPerformed
-        switch(MainFrame.operation) {
+        switch (MainFrame.operation) {
             case "+" -> {
                 MainFrame.num2 = Float.parseFloat(result_box.getText());
                 result_box.setText(String.valueOf(MainFrame.num1 + MainFrame.num2));
+                formatText();
             }
             case "-" -> {
                 MainFrame.num2 = Float.parseFloat(result_box.getText());
                 result_box.setText(String.valueOf(MainFrame.num1 - MainFrame.num2));
+                formatText();
             }
             case "*" -> {
                 MainFrame.num2 = Float.parseFloat(result_box.getText());
                 result_box.setText(String.valueOf(MainFrame.num1 * MainFrame.num2));
+                formatText();
             }
             case "/" -> {
                 MainFrame.num2 = Float.parseFloat(result_box.getText());
                 result_box.setText(String.valueOf(MainFrame.num1 / MainFrame.num2));
+                formatText();
             }
             case "%" -> {
                 MainFrame.num2 = Float.parseFloat(result_box.getText());
                 result_box.setText(String.valueOf(MainFrame.num1 % MainFrame.num2));
+                formatText();
             }
             default -> {
             }
@@ -373,31 +396,32 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_equal_btnActionPerformed
 
     private void minus_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minus_btnActionPerformed
-        MainFrame.num1 = Float.parseFloat(result_box.getText());
+        MainFrame.num1 = Float.parseFloat(removeCommas(result_box.getText()));
+        result_box.setText("");
         MainFrame.operation = "-";
-        MainFrame.pressed = true;
     }//GEN-LAST:event_minus_btnActionPerformed
 
     private void mult_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mult_btnActionPerformed
-        MainFrame.num1 = Float.parseFloat(result_box.getText());
+        MainFrame.num1 = Float.parseFloat(removeCommas(result_box.getText()));
+        result_box.setText("");
         MainFrame.operation = "*";
-        MainFrame.pressed = true;
     }//GEN-LAST:event_mult_btnActionPerformed
 
     private void div_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_div_btnActionPerformed
-        MainFrame.num1 = Float.parseFloat(result_box.getText());
+        MainFrame.num1 = Float.parseFloat(removeCommas(result_box.getText()));
+        result_box.setText("");
         MainFrame.operation = "/";
-        MainFrame.pressed = true;
     }//GEN-LAST:event_div_btnActionPerformed
 
     private void mod_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mod_btnActionPerformed
-        MainFrame.num1 = Float.parseFloat(result_box.getText());
+        MainFrame.num1 = Float.parseFloat(removeCommas(result_box.getText()));
+        result_box.setText("");
         MainFrame.operation = "%";
-        MainFrame.pressed = true;
     }//GEN-LAST:event_mod_btnActionPerformed
 
     private void neg_pos_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neg_pos_btnActionPerformed
-        result_box.setText(String.valueOf(Float.parseFloat(result_box.getText()) * -1));
+        String rslt = String.valueOf(Float.parseFloat(result_box.getText()) * -1);
+        result_box.setText(removeCommas(rslt));
     }//GEN-LAST:event_neg_pos_btnActionPerformed
 
     /**
